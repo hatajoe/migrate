@@ -47,7 +47,7 @@ func (driver *Driver) Initialize(rawurl string) error {
 
 	cluster := gocql.NewCluster(u.Host)
 	cluster.Keyspace = u.Path[1:len(u.Path)]
-	cluster.Consistency = gocql.All
+	cluster.Consistency = driver.consistencyLevel(u)
 	cluster.Timeout = 1 * time.Minute
 
 	// Check if url user struct is null
@@ -75,6 +75,18 @@ func (driver *Driver) Initialize(rawurl string) error {
 		return err
 	}
 	return nil
+}
+
+func (driver *Driver) consistencyLevel(u *url.URL) gocql.Consistency {
+	level := gocql.All
+	if c := u.Query().Get("consistency"); c != "" {
+		switch c {
+		case "ONE":
+			level = gocql.One
+		default: // gocql.All
+		}
+	}
+	return level
 }
 
 func (driver *Driver) Close() error {
