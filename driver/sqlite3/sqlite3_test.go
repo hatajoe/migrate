@@ -2,9 +2,9 @@ package sqlite3
 
 import (
 	"database/sql"
-	"github.com/mattes/migrate/file"
-	"github.com/mattes/migrate/migrate/direction"
-	pipep "github.com/mattes/migrate/pipe"
+	"github.com/hatajoe/migrate/file"
+	"github.com/hatajoe/migrate/migrate/direction"
+	pipep "github.com/hatajoe/migrate/pipe"
 	"testing"
 )
 
